@@ -1,0 +1,72 @@
+# places.toml — graph of recognizable destinations on reddit.com.
+# See specs/01-stencil.md §6 for the format.
+
+target = "reddit"
+description = "Reddit places: login, home, subreddit_<name>"
+
+# --- login password (interactive) ---------------------------------
+# Reddit keeps multiple auth forms in the DOM at the same /login URL
+# and toggles the active step through visibility. This state is the
+# username/password panel, not merely the existence of the form.
+
+[[place]]
+name = "login_password"
+interactive = true
+submit.click = "faceplate-form#login button.login"
+signature.url = "https://www.reddit.com/login/"
+signature.visible_selector = "faceplate-form#login"
+
+  [[place.element]]
+  name = "username_field"
+  selector = "faceplate-text-input#login-username input"
+  auto_fill = "{reddit_username}"
+
+  [[place.element]]
+  name = "password_field"
+  selector = "faceplate-text-input#login-password input"
+  auto_fill = "{reddit_password}"
+
+# --- login TOTP (interactive) -------------------------------------
+# Same URL as the password step, distinct active form.
+
+[[place]]
+name = "login_otp"
+interactive = true
+submit.click = "faceplate-form#login-app-otp button.check-app-code"
+signature.url = "https://www.reddit.com/login/"
+signature.visible_selector = "faceplate-form#login-app-otp"
+
+  [[place.element]]
+  name = "app_otp_field"
+  selector = "faceplate-text-input#one-time-code-appOtp input"
+  auto_fill = "{reddit_totp}"
+
+# --- home ---------------------------------------------------------
+# The signed-in landing page.
+
+[[place]]
+name = "home"
+url = "https://www.reddit.com/"
+signature.url = "https://www.reddit.com/"
+signature.selector = "shreddit-app, [data-testid='home-feed']"
+signature.absent_selector = "form[action*='/login']"
+
+# --- subreddit_rust -----------------------------------------------
+# Capture target. Ships with NO unmasked elements so the first dump
+# shows post titles as [TEXT:<len>]. Add unmasking by running:
+#
+#   stencilwright reddit place subreddit_rust element add \
+#       'a[id^="post-title-"][slot="title"]' --as post_titles --unmasked
+#
+# Each unmask expansion is a deliberate, user-approved step.
+
+[[place]]
+name = "subreddit_rust"
+url = "https://www.reddit.com/r/rust/"
+signature.url = "https://www.reddit.com/r/rust/"
+signature.selector = 'shreddit-feed[reload-url*="name=rust"]'
+signature.absent_selector = "form[action*='/login']"
+
+[[place.element]]
+name = "post_titles"
+selector = 'a[id^="post-title-"][slot="title"]'

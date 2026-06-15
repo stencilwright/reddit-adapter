@@ -1,0 +1,25 @@
+[package]
+name = "reddit-adapter"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+description = "Browser-automation-backed API for Reddit — list a subreddit's posts as you, no API key (more to come), built on apiwright."
+
+[lib]
+name = "reddit_adapter"
+path = "src/lib.rs"
+
+[[bin]]
+name = "reddit-adapter-test"
+path = "src/main.rs"
+
+[dependencies]
+# apiwright lives in the stencilwright monorepo (sibling checkout); re-exports the stencil crates.
+apiwright = { path = "../stencilwright/crates/apiwright" }
+
+tokio      = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+anyhow     = "1"
+clap       = { version = "4", features = ["derive"] }
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"

@@ -15,3 +15,20 @@
 # [[element]]
 # name = "global_search"
 # selector = "input[type='search']"
+
+# --- account / auth surface (discovered while driving logout + login) ---
+[[element]]
+name = "user_drawer_button"
+selector = "#expand-user-drawer-button"
+
+[[element]]
+name = "logout"
+selector = "#logout-list-item"
+
+[[element]]
+name = "authed_indicator"
+selector = "#user-drawer-avatar-logged-in"
+
+[[element]]
+name = "login_button"
+selector = "#login-button"

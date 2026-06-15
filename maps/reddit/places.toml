@@ -12,9 +12,10 @@ description = "Reddit places: login, home, subreddit_<name>"
 [[place]]
 name = "login_password"
 interactive = true
+url = "https://www.reddit.com/login/"
 submit.click = "faceplate-form#login button.login"
 signature.url = "https://www.reddit.com/login/"
-signature.visible_selector = "faceplate-form#login"
+signature.visible_selector = "faceplate-form#login input[name='username']"
 
   [[place.element]]
   name = "username_field"
